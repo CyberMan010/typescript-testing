@@ -4,7 +4,7 @@ import TermsModal from "./conditionsPage";
 
 // interfaces and countries
 
-interface FormValues {
+type FormValues = {
   fullName: string;
   email: string;
   password: string;
