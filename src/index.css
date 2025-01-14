@@ -66,3 +66,115 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+.form-style {
+  max-width: 450px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-style form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-style div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-style label {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.form-style input[type="text"],
+.form-style input[type="email"],
+.form-style input[type="password"],
+.form-style select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-style input:focus,
+.form-style select:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+.form-style input::placeholder {
+  color: #94a3b8;
+}
+
+/* Helper text styles */
+.form-style span {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+/* Error message styles */
+.form-style span[style*="color: red"] {
+  color: #ef4444 !important;
+  font-size: 0.875rem;
+}
+
+/* Checkbox container styles */
+.form-style div:has(input[type="checkbox"]) {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-style input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Button styles */
+.form-style button {
+  background-color: #4f46e5;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.form-style button:hover:not(:disabled) {
+  background-color: #4338ca;
+}
+
+.form-style button:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+  .form-style {
+      margin: 1rem;
+      padding: 1.5rem;
+  }
+}

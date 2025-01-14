@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Input, Button } from "digitinary-ui";
+import TermsModal from "./conditionsPage";
+
+// interfaces and countries
 
 interface FormValues {
   fullName: string;
@@ -35,8 +38,14 @@ const countries = [
   { code: "IN", name: "India" },
   { code: "GB", name: "United Kingdom" },
   { code: "AU", name: "Australia" },
-  { code: "OIC", name: "Syria" },
+  { code: "OCI", name: "Syria" },
 ];
+// interfaces and countries end
+
+
+
+
+// Validation
 
 const validateForm = (values: FormValues): FormErrors => {
   const errors: FormErrors = {};
@@ -79,8 +88,23 @@ const validateForm = (values: FormValues): FormErrors => {
 
   return errors;
 };
+// End-Validation
 
 const CustomForm: React.FC = () => {
+
+// Handlers-Start
+const handleAgree = () => {
+  setAgreeToTerms(true); // Update local state
+  setValues((prevValues) => ({ ...prevValues, agreeToTerms: true })); // Update form values
+  setShowTermsModal(false); // Close the modal
+};
+  
+    // Function to close the modal without agreeing
+    const handleCloseModal = () => {
+      setShowTermsModal(false); 
+    };
+  // Handlers-End
+
   const initialValues: FormValues = {
     fullName: "",
     email: "",
@@ -90,6 +114,9 @@ const CustomForm: React.FC = () => {
     agreeToTerms: false,
   };
 
+  // states
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<TouchedFields>({
@@ -101,6 +128,9 @@ const CustomForm: React.FC = () => {
     agreeToTerms: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // End-States
+
 
   // Revalidate the form whenever `values` change
   useEffect(() => {
@@ -142,35 +172,38 @@ const CustomForm: React.FC = () => {
       age: true,
       agreeToTerms: true,
     });
-
+    
     // Validate the form
     const validationErrors = validateForm(values);
-    setErrors(validationErrors);
+  setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
-      setIsSubmitting(true);
-      // Simulate form submission
-      setTimeout(() => {
-        alert("Form submitted successfully!");
-        setIsSubmitting(false);
-        // Reset the form to its initial state
-        setValues(initialValues);
-        setTouched({
-          fullName: false,
-          email: false,
-          password: false,
-          country: false,
-          age: false,
-          agreeToTerms: false,
-        });
-      }, 1000);
-    }
+  if (Object.keys(validationErrors).length === 0) {
+    setIsSubmitting(true);
+    // Simulate form submission
+    setTimeout(() => {
+      alert("Form submitted successfully!");
+      setIsSubmitting(false);
+      // Reset the form to its initial state
+      setValues(initialValues);
+      setTouched({
+        fullName: false,
+        email: false,
+        password: false,
+        country: false,
+        age: false,
+        agreeToTerms: false,
+      });
+      setAgreeToTerms(false); // Reset the agreeToTerms state
+    }, 1000);
+  }
   };
 
   // Check if the form is valid
   const isFormValid = Object.keys(errors).length === 0;
 
   return (
+    <div className="form-style">
+      
     <form onSubmit={handleSubmit}>
       {/* Full Name Input */}
       <div>
@@ -264,30 +297,39 @@ const CustomForm: React.FC = () => {
       </div>
 
       {/* Agree to Terms Checkbox */}
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            name="agreeToTerms"
-            checked={values.agreeToTerms}
-            onChange={(e) => handleChange("agreeToTerms", e.target.checked)}
-            onBlur={() => handleBlur("agreeToTerms")}
-          />
-          I agree to the terms and conditions
-        </label>
-        {touched.agreeToTerms && errors.agreeToTerms && (
-          <span style={{ color: "red" }}>{errors.agreeToTerms}</span>
-        )}
-        <span style={{ color: "#666", fontSize: "12px" }}>
-          You must agree to the terms and conditions to proceed.
-        </span>
-      </div>
+      <div style={{ marginBottom: "20px" }}>
+          <label>
+            <input
+              type="checkbox"
+              name="agreeToTerms"
+              checked={agreeToTerms}
+              onChange={(e) => setAgreeToTerms(e.target.checked)}
+            />
+            I agree to the{" "}
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowTermsModal(true); // Open the modal
+              }}
+              style={{ color: "blue", textDecoration: "underline" }}
+            >
+              Terms & Conditions
+            </a>
+          </label>
+        </div>
 
-      {/* Submit Button */}
-      <Button type="submit" disabled={isSubmitting || !isFormValid}>
-        {isSubmitting ? "Submitting..." : "Submit"}
-      </Button>
-    </form>
+        {/* Submit Button */}
+        <Button type="submit" disabled={!agreeToTerms || !isFormValid}>
+  Submit
+</Button>
+      </form>
+      
+      {/* Terms & Conditions Modal */}
+      {showTermsModal && (
+        <TermsModal onAgree={handleAgree} onClose={handleCloseModal} />
+      )}
+    </div>
   );
 };
 
