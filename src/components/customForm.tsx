@@ -31,9 +31,11 @@ interface TouchedFields {
 const countries = [
   { code: "US", name: "United States" },
   { code: "CA", name: "Canada" },
+  { code: "OIC", name: "Jordan" },
   { code: "IN", name: "India" },
   { code: "GB", name: "United Kingdom" },
   { code: "AU", name: "Australia" },
+  { code: "OIC", name: "Syria" },
 ];
 
 const validateForm = (values: FormValues): FormErrors => {
