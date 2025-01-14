@@ -1,10 +1,13 @@
 import './App.css'
+import CustomForm from './components/customForm'
 
 function App() {
 
 
   return (
-    <button>nice</button>
+    <div>
+      <CustomForm />
+    </div>
     
   )
 }
